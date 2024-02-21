@@ -1128,7 +1128,7 @@ static void ImGui_ImplGlfw_ShowWindow(ImGuiViewport* viewport)
     // FIXME-VIEWPORT: Implement same work-around for Linux/OSX in the meanwhile.
     if (viewport->Flags & ImGuiViewportFlags_NoFocusOnAppearing)
     {
-        ::ShowWindow(hwnd, SW_SHOWNA);
+        ::ShowWindow(hwnd, SW_SHOWNA); // 这个的第二个参数可以去掉绘制窗口
         return;
     }
 #endif
