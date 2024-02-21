@@ -1,13 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
-project(imgui_test)
+project(exec)
 set(CMAKE_CXX_STANDARD 17)
 include_directories(lib/glfw/include lib/imgui lib/imgui/backends)
 link_directories(lib/glfw/lib)
-file(GLOB_RECURSE IMGUI_SRC lib/imgui/.*cpp)
+
+# file(GLOB_RECURSE IMGUI_SRC ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/*.cpp)
+set(IMGUI_DIR lib/imgui)
+set(IMGUI_SRC ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_tables.cpp ${IMGUI_DIR}/imgui_widgets.cpp)
+file(GLOB_RECURSE PRO_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc)
+
 find_package(Vulkan REQUIRED)
 set(LIBRARIES "Vulkan::Vulkan")
-set(IMGUI_DIR lib/imgui)
-# add_executable(imgui_test WIN32 src/main.cpp ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_tables.cpp ${IMGUI_DIR}/imgui_widgets.cpp) #添加WIN32参数就不会显示控制台界面了
-add_executable(imgui_test src/main.cpp ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_tables.cpp ${IMGUI_DIR}/imgui_widgets.cpp) #添加WIN32参数就不会显示控制台界面了
-target_link_libraries(imgui_test glfw3.a ${LIBRARIES})
+
+# add_executable(exec WIN32 src/main.cpp ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_tables.cpp ${IMGUI_DIR}/imgui_widgets.cpp) #添加WIN32参数就不会显示控制台界面了
+# add_executable(exec src/main.cpp ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_tables.cpp ${IMGUI_DIR}/imgui_widgets.cpp) #添加WIN32参数就不会显示控制台界面了
+add_executable(exec ${PRO_SRC} ${IMGUI_SRC})
+
+target_link_libraries(exec glfw3.a ${LIBRARIES})
+
 # target_compile_definitions(example_glfw_vulkan PUBLIC -DImTextureID=ImU64)
