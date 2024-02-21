@@ -48,7 +48,7 @@ void example(bool* b_show_demo_wnd, bool* b_show_another_wnd, ImVec4* clear_colo
 void teach() {
     static bool b_collapse; // 注意: 临时写法
     ImGui::Begin(u8"WndName: 菜单", &b_collapse);
-    
+
     ImGui::Text("hello world");
     ImGui::TextColored(ImColor(255, 0.0, 0.0), "TextColored"); // ImColor取值是0~255
     ImGui::SameLine(); // SameLine会让上一个TextColored和下面的BulletText保持同一行
@@ -62,6 +62,16 @@ void teach() {
     if (b_clicked) {
         static bool b_show_tips_wnd = false;
         ImGui::Begin(u8"点击了", &b_show_tips_wnd);
+        ImGui::End();
+        ImGui::Begin(u8"附加窗口", &b_show_tips_wnd);
+        ImGui::End();
+        ImGui::Begin(u8"附加窗口2", &b_show_tips_wnd);
+        ImGui::End();
+        ImGui::Begin(u8"附加窗口3", &b_show_tips_wnd);
+        ImGui::End();
+        ImGui::Begin(u8"附加窗口4", &b_show_tips_wnd);
+        ImGui::End();
+        ImGui::Begin(u8"附加窗口5", &b_show_tips_wnd);
         ImGui::End();
     }
 
@@ -86,12 +96,31 @@ void teach() {
     ImGui::InputText(u8"输入框", input, sizeof(input));
 
     {
+        // 通过SameLine达到横向布局, 通过BeginGroup在横向布局中插入纵向布局
+        ImGui::Button("AAA");
+        ImGui::SameLine();
+        ImGui::Button("BBB");
+        ImGui::SameLine();
+
+        ImGui::BeginGroup();
+        ImGui::Button("QQQ");
+        ImGui::Button("PPP");
+        ImGui::EndGroup();
+        
+        ImGui::SameLine();
+        ImGui::Button("CCC");
+        ImGui::SameLine();
+        ImGui::Button("DDD");
+    }
+#if 0
+    {
         // 这些都会画在绘制窗口上，如果没有隐藏了绘制窗口则会画在以显示器左上角为原点的位置
         ImGui::GetForegroundDrawList()->AddLine(ImVec2(0,0), ImVec2(1000, 1000), ImColor(0, 255, 0), 2.0f);
         ImGui::GetForegroundDrawList()->AddRect(ImVec2(0,0), ImVec2(1000, 1000), ImColor(0, 255, 0), /*圆角*/10, 0, 2.0f);
         ImGui::GetForegroundDrawList()->AddCircle(ImVec2(100, 100), 100, ImColor(0, 255, 0), /*细分*/0, 3.0f);
         ImGui::GetForegroundDrawList()->AddText(ImVec2(100, 100), ImColor(0, 255, 255), u8"ImGui::GetForegroundDrawList()->AddText()");
     }
+#endif
 
     ImGui::End();
 }
